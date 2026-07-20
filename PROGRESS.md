@@ -2,11 +2,11 @@
 
 ## Current Status
 
-`C-004` — 2026-07-21 — 已移除 Gemini，完成 Codex／Claude Code 草稿 → Web Builder 教師確認，以及 Web standalone 人工分段流程；自動化與真實瀏覽器驗收 `pass`。
+`C-005` — 2026-07-21 — Sites 私人 Pilot 發布中；production 邀請碼已存入託管端秘密，D1／R2 綁定與正式網址仍待部署驗證。
 
 ## In Progress
 
-- 完成 Sites／Cloudflare 私人 Pilot 發布與正式環境邀請碼設定。
+- 完成 Sites 私人 Pilot 版本封裝、發布與正式網址 smoke test。
 - 安排 MacBook、外接螢幕與兩支手機的 10 分鐘實體彩排。
 
 ## Next

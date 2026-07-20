@@ -2,7 +2,7 @@
 
 ## Current Goal
 
-實作 C-004 跨 Agent review：Codex／Claude Code 準備分段草稿，或教師在 Web Builder 人工分段；只有教師逐頁確認後才建立互動課堂。
+實作 C-005 Sites 私人 Pilot：設定 production 邀請碼、發布 D1／R2 版本，並以正式網址驗證建課與三端課堂流程。
 
 ## Stack And Run Commands
 
@@ -47,14 +47,15 @@
 - 2026-07-21：新增 `course:review`，只有 Manifest 與 PDF checksum／頁數相符時才準備 `/build?draft=local` 審查資料。
 - 2026-07-21：以 59 頁運動禁藥講義驗證 5 段 Agent 草稿、0 停靠頁起始狀態，以及教師人工從 p.12 拆分的 fallback。
 - 2026-07-21：更新 `/guide` 前四張真實畫面；C-004 桌面與 390 px 手機 artifact `pass`。
+- 2026-07-21：C-005 建立 Sites 私人專案並將高熵 `PILOT_INVITE_CODE` 儲存在託管端秘密；專案檔案不保存明文邀請碼。
 
 ## Current Checkpoint
 
-C-004 自動化與 Web Builder 雙入口已 `pass`；C-003 課堂 runtime 保持不變。正式部署與實體雙螢幕／兩支手機彩排仍未完成。
+C-005 發布前 lint、production build 與 11/11 tests 已 `pass`；Sites 私人版本正準備封裝與發布。
 
 ## Recommended Next Step
 
-建立 Cloudflare／Sites 私人 Pilot，設定 production `PILOT_INVITE_CODE`，以正式網址重跑雙入口 smoke test。
+完成 Sites 私人部署，以正式網址重跑建課、開場、提問、同問與指定投影 smoke test。
 
 ## Verification Status
 
