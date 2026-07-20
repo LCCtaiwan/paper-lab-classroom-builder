@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+### C-005 — 2026-07-21
+
+- Added：發布擁有者限定的 Sites 私人 Pilot，並在託管端以秘密保存 production `PILOT_INVITE_CODE`。
+- Added：啟用 Sites 管理的 D1／R2，保存課程、場次、問題、同問、原 PDF、頁面與縮圖。
+- Verified：production build、11/11 tests；正式網址完成建課、六碼場次、提問、同問防重複、指定／收回投影與四端 HTTP 200 smoke test。
+- Gate：部署與 runtime smoke `pass`；完整 Pilot 因擁有者登入後的 Builder 視覺彩排及實體雙螢幕／兩支手機彩排維持 `revise`。
+
 ### C-004 — 2026-07-21
 
 - Changed：將分段入口改為 Codex／Claude Code 草稿或教師人工分段，Web Builder 不再依賴 Gemini API。

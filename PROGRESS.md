@@ -2,18 +2,18 @@
 
 ## Current Status
 
-`C-005` — 2026-07-21 — Sites 私人 Pilot 發布中；production 邀請碼已存入託管端秘密，D1／R2 綁定與正式網址仍待部署驗證。
+`C-005` — 2026-07-21 — Sites 私人 Pilot 已發布；production 邀請碼、D1／R2、建課、六碼場次、提問、同問與指定投影 smoke test `pass`。
 
 ## In Progress
 
-- 完成 Sites 私人 Pilot 版本封裝、發布與正式網址 smoke test。
+- 完成擁有者登入後的 Web Builder 視覺化雙入口彩排。
 - 安排 MacBook、外接螢幕與兩支手機的 10 分鐘實體彩排。
 
 ## Next
 
-1. 建立 Cloudflare／Sites 私人版本並設定 production `PILOT_INVITE_CODE`。
-2. 以正式網址重跑 Agent 草稿、人工分段、建課、開場、提問與投影 smoke test。
-3. 完成實體雙螢幕與兩支手機彩排。
+1. 講師在私人網址完成 ChatGPT 登入。
+2. 以正式 Builder 視覺化重跑 Agent 草稿與人工分段入口。
+3. 完成 MacBook、外接螢幕與兩支手機的 10 分鐘彩排。
 4. 彩排通過後將完整 Pilot gate 標記 `pass`。
 
 ## Notes
@@ -23,3 +23,4 @@
 - Web standalone 不使用 Gemini 或其他模型 API，從單一完整段落開始人工調整。
 - 圖解操作教學位於 `/guide`，使用 59 頁運動禁藥講義的 11 張真實產品畫面。
 - C-004 驗證：lint、production build、11/11 tests；59 頁 Agent 草稿與人工 fallback；390 px 無水平溢位、59 張縮圖載入、console 0 errors。
+- C-005 驗證：私人 Sites version 1 發布成功；1 頁正式環境 smoke course 完成 D1／R2 建課、六碼場次、提問、同問防重複、指定／收回投影及關閉場次；四端頁面 HTTP 200。

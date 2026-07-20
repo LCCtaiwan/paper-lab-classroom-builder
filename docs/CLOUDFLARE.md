@@ -2,6 +2,10 @@
 
 這個 repository 本身就是等價的 Cloudflare Workers 部署包；Web 與 Claude Code 仍使用同一個 Manifest validator 與 runtime。`course:export` 另會封裝 Manifest、原 PDF 衍生資產與本說明供備份或搬移。
 
+## 已發布的 Sites 私人 Pilot
+
+正式 Pilot 位於 <https://paper-lab-classroom-pilot.pharmacist-lee.chatgpt.site>，採擁有者限定的 ChatGPT 登入，並在應用層額外要求 `PILOT_INVITE_CODE`。D1 保存課程、場次、問題與同問；R2 保存 PDF、頁面與縮圖。下列 Wrangler 流程是 Claude Code 使用者無法使用 Sites 時的等價 fallback。
+
 ## Prerequisites
 
 - Node.js 22.13+
