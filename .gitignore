@@ -1,0 +1,15 @@
+.DS_Store
+node_modules/
+dist/
+.next/
+.wrangler/
+output/
+.playwright-cli/
+tmp/
+*.log
+*.zip
+.env
+.env.local
+course.manifest.json
+site/public/local-course.manifest.json
+site/public/courses/

@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+### C-003 — 2026-07-20
+
+- Added：完成共用 Manifest validator、PDF import／validate／preview／export CLI 與根目錄 `CLAUDE.md`。
+- Added：完成 Web Builder、D1／R2 課程資料、獨立場次、六碼加入、講師／投影／學生三端、提問、同問、隱藏、指定投影與課後回顧。
+- Added：建立 `/guide` 響應式 HTML，以 59 頁「運動禁藥知多少」講義的 11 張真實操作截圖說明完整流程。
+- Changed：建課頁加入「操作教學」入口；社群分享 metadata 使用已驗收的 Paper Lab 圖像。
+- Fixed：隱藏問題改用專用 CSS 狀態，確保學生端不可見但講師課後仍可回顧。
+- Why：讓沒有 Codex／Claude 的教師也能看圖完成建課，同時保留跨 Agent 相同的課程資料契約。
+- Verified：lint、production build、10/10 tests 通過；16／59 頁 Web 流程、16／64 頁 CLI、桌面與 390 px 手機教學頁通過；`/guide` 11 張圖片全部載入且 console 0 errors。
+- Gate：自動化與圖解教學 artifact `pass`；完整 Pilot 因尚未完成實體雙螢幕＋兩支手機彩排，維持 `revise`。
+
 ### C-002 — 2026-07-18
 
 - Changed：將第一階段收斂為跨 Agent Web Pilot；無 coding agent、Codex 與 Claude Code 均共用 Manifest 與 deterministic builder。

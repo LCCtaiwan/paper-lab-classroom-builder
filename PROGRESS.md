@@ -2,22 +2,22 @@
 
 ## Current Status
 
-`C-002` — 2026-07-18 — 完成跨 Agent Pilot 決策與 SDD，開始實作共用 Manifest、Web Builder 與課堂 runtime。
+`C-003` — 2026-07-20 — 共用 Manifest、Web Builder、Claude Code CLI、三端課堂 runtime 與真實畫面操作教學均已完成自動化驗證。
 
 ## In Progress
 
-- 建立 `course.manifest.json` schema、PDF CLI 與兩份 PDF fixture。
-- 將既有 Paper Lab runtime 泛用化為課程／場次資料驅動。
+- 完成 Sites 私人 Pilot 發布與正式環境邀請碼設定。
+- 安排 MacBook、外接螢幕與兩支手機的 10 分鐘實體彩排。
 
 ## Next
 
-1. 完成 Manifest schema、PDF 匯入／驗證／預覽／匯出命令。
-2. 完成 Web Builder 的 PDF 上傳、分段審查與停靠頁設定。
-3. 完成講師端、投影端、學生端與 D1／R2 資料流。
-4. 驗證 Claude Code 與 Web 使用相同 Manifest 與 builder。
-5. 使用兩份不同 PDF 進行 `pass／revise／reject` 驗收並發布 Pilot。
+1. 建立 Sites 私人版本並設定 production `PILOT_INVITE_CODE`。
+2. 以正式網址重跑建課、開場、提問與投影 smoke test。
+3. 完成實體雙螢幕與兩支手機彩排。
+4. 彩排通過後將 Pilot 最終狀態由 `revise` 改為 `pass`。
 
 ## Notes
 
 - Pilot 只以邀請碼與秘密管理連結服務 2–5 位教師，不建立正式帳號系統。
 - AI 只提出課名、連續分段、摘要與頁碼依據；停靠頁完全由教師設定。
+- 圖解操作教學位於 `/guide`，使用 59 頁運動禁藥講義的 11 張真實產品畫面。

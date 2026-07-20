@@ -1,0 +1,16 @@
+{
+  "name": "paper-lab-pilot",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix site run dev",
+    "build": "npm --prefix site run build",
+    "test": "npm --prefix site test",
+    "lint": "npm --prefix site run lint",
+    "deploy:cloudflare": "npm --prefix site run deploy:cloudflare",
+    "course:import": "npm --prefix site run course:import --",
+    "course:validate": "npm --prefix site run course:validate --",
+    "course:preview": "npm --prefix site run course:preview --",
+    "course:export": "npm --prefix site run course:export --"
+  }
+}

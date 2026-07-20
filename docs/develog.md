@@ -36,16 +36,25 @@
 - 2026-07-18：定義兩階段產品邊界、課程設定檔草案、醫療教學安全原則與驗收條件。
 - 2026-07-18：選定下一個最小切片為「PDF 匯入＋設定檔驅動頁數」。
 - 2026-07-18：C-002 完成跨 Agent Pilot brainstorming 與 SDD，選定 64 頁講義及 16 頁 OpenEvidence PDF 作為驗證輸入。
+- 2026-07-20：C-003 完成共用 Manifest、四個 CLI、Web Builder、D1／R2 儲存與講師／投影／學生三端課堂。
+- 2026-07-20：使用 59 頁 `0614_運動禁藥_李承洲.pdf` 完成實際建課；建議分為五段，停靠頁為 p.11、40、50、54。
+- 2026-07-20：建立 `/guide` 圖解 HTML，整合 11 張真實操作畫面；桌面與 390 px 手機版視覺檢查均 `pass`。
+- 2026-07-20：修正通用 `.hidden` class 造成講師端隱藏問題完全消失的缺陷；改為只對學生隱藏並保留講師回顧。
 
 ## Current Checkpoint
 
-C-002 規劃 artifact 已 `pass`，開始實作 Manifest／PDF CLI；Web／Claude parity 與完整課堂尚未驗收。
+C-003 自動化與產品流程已 `pass`；Sites 正式發布與實體 MacBook／外接螢幕／兩支手機彩排尚未完成，因此完整 Pilot 為 `revise`。
 
 ## Recommended Next Step
 
-先完成「兩份 PDF → 合法 Manifest → 動態頁數 runtime」切片並驗證，再整合 Web Builder 與即時課堂。
+先完成 Sites 私人 Pilot 發布與正式網址 smoke test，再執行 10 分鐘實體雙螢幕＋兩支手機彩排。
 
 ## Verification Status
 
 - 規格涵蓋目標、非目標、角色、輸入、輸出、核心流程、設定檔、兩階段範圍、安全、非功能需求、驗收、風險與待決策事項。
-- C-002 規劃 artifact 判定：`pass`。實作驗收尚未執行。
+- C-002 規劃 artifact：`pass`。
+- PDF：16、59、64 頁講義均能正確辨識頁數；59 頁運動禁藥講義首／中／末頁視覺檢查 `pass`。
+- Web：59 頁、5 段、4 停靠頁課程成功建立；六碼場次、學生提問、講師指定與投影單題均 `pass`。
+- Guide：桌面與 390 px 手機無水平溢位；11 張圖片成功載入；console 0 errors，artifact `pass`。
+- Tooling：lint、production build、10/10 tests `pass`。
+- Pilot 最終狀態：`revise`，只因 Sites 正式發布與實體彩排尚未完成。
