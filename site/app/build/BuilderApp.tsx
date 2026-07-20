@@ -2,7 +2,7 @@
 
 /* eslint-disable @next/next/no-img-element -- PDF pages use generated blob URLs. */
 import Link from "next/link";
-import { useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { PDFDocumentProxy } from "pdfjs-dist";
 import type { CourseManifest, CourseSection } from "../../lib/course-manifest.mjs";
@@ -59,11 +59,13 @@ export function BuilderApp() {
   const router = useRouter();
   const documentRef = useRef<PDFDocumentProxy | null>(null);
   const thumbBlobs = useRef(new Map<number, Blob>());
+  const thumbUrls = useRef<PageThumb[]>([]);
+  const localDraftAttempted = useRef(false);
   const [inviteCode, setInviteCode] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [manifest, setManifest] = useState<CourseManifest | null>(null);
   const [thumbs, setThumbs] = useState<PageThumb[]>([]);
-  const [consent, setConsent] = useState(false);
+  const [privacyConfirmed, setPrivacyConfirmed] = useState(false);
   const [visualConfirmed, setVisualConfirmed] = useState(false);
   const [notice, setNotice] = useState("先選擇一份未加密、20 MB／100 頁以內的 PDF。");
   const [busy, setBusy] = useState(false);
@@ -73,10 +75,11 @@ export function BuilderApp() {
   const boundaryStarts = useMemo(() => new Set(manifest?.sections.map((section) => section.startPage) ?? []), [manifest]);
   const checkpointSet = useMemo(() => new Set(manifest?.checkpoints ?? []), [manifest]);
 
-  const loadPdf = async (nextFile: File) => {
+  const loadPdf = useCallback(async (nextFile: File, agentDraft?: CourseManifest) => {
     setBusy(true);
     setNotice("正在讀取 PDF 與建立頁面時間軸…");
-    thumbs.forEach((thumb) => URL.revokeObjectURL(thumb.url));
+    thumbUrls.current.forEach((thumb) => URL.revokeObjectURL(thumb.url));
+    thumbUrls.current = [];
     setThumbs([]);
     thumbBlobs.current.clear();
     try {
@@ -89,7 +92,15 @@ export function BuilderApp() {
       const checksum = await sha256(nextFile);
       const baseName = nextFile.name.replace(/\.pdf$/i, "");
       const courseId = safeCourseId(`${baseName}-${checksum.slice(0, 8)}`);
-      const nextManifest = createFallbackManifest({ courseId, title: baseName || "未命名課程", fileName: nextFile.name, sha256: checksum, pageCount: document.numPages });
+      const fallback = createFallbackManifest({ courseId, title: baseName || "未命名課程", fileName: nextFile.name, sha256: checksum, pageCount: document.numPages });
+      if (agentDraft) {
+        const result = validateManifest(agentDraft);
+        if (!result.ok) throw new Error(result.errors.join("\n"));
+        if (agentDraft.source.sha256 !== checksum || agentDraft.source.pageCount !== document.numPages) {
+          throw new Error("Agent 草稿的 PDF checksum 或頁數與目前講義不一致。");
+        }
+      }
+      const nextManifest = agentDraft ?? fallback;
       documentRef.current = document;
       setFile(nextFile);
       setManifest(nextManifest);
@@ -100,8 +111,11 @@ export function BuilderApp() {
         nextThumbs.push({ page, url: URL.createObjectURL(blob) });
         setProgress(Math.round((page / document.numPages) * 100));
       }
+      thumbUrls.current = nextThumbs;
       setThumbs(nextThumbs);
-      setNotice(`已讀取 ${document.numPages} 頁。可先請 AI 分段，或直接人工設定。`);
+      setNotice(agentDraft
+        ? `已載入 Agent 草稿：${agentDraft.sections.length} 個連續段落。請逐頁確認並自行設定停靠頁。`
+        : `已讀取 ${document.numPages} 頁，目前為涵蓋全部頁面的單一段落；可匯入 Agent 草稿或直接人工分段。`);
     } catch (error) {
       setFile(null);
       setManifest(null);
@@ -111,26 +125,31 @@ export function BuilderApp() {
       setBusy(false);
       setProgress(0);
     }
-  };
+  }, []);
 
-  const analyze = async () => {
-    if (!file || !manifest || !inviteCode || !consent) { setNotice("請輸入 pilot 邀請碼、選擇 PDF 並確認非敏感教材同意事項。"); return; }
-    setBusy(true);
-    setNotice("AI 正在辨認課名與內容分段；不會產生教案或互動題…");
-    try {
-      const form = new FormData();
-      form.append("pdf", file);
-      form.append("fallback", JSON.stringify(manifest));
-      form.append("consent", "true");
-      const response = await fetch("/api/analyze", { method: "POST", headers: { "x-pilot-code": inviteCode }, body: form });
-      const data = await responseJson<{ manifest?: CourseManifest; warning?: string; error?: string }>(response);
-      if (!response.ok || !data.manifest) throw new Error(data.error || "AI 分析失敗。");
-      setManifest(data.manifest);
-      setNotice(data.warning || `AI 建議 ${data.manifest.sections.length} 個連續段落；請逐頁查核後自行設定停靠頁。`);
-    } catch (error) {
-      setNotice(error instanceof Error ? error.message : "AI 分析失敗；可繼續人工分段。");
-    } finally { setBusy(false); }
-  };
+  useEffect(() => {
+    if (localDraftAttempted.current || new URLSearchParams(window.location.search).get("draft") !== "local") return;
+    localDraftAttempted.current = true;
+    void (async () => {
+      try {
+        setBusy(true);
+        setNotice("正在載入 Agent 準備的本機審查草稿…");
+        const [manifestResponse, pdfResponse] = await Promise.all([
+          fetch("/local-course.manifest.json", { cache: "no-store" }),
+          fetch("/local-course.pdf", { cache: "no-store" }),
+        ]);
+        if (!manifestResponse.ok || !pdfResponse.ok) throw new Error("找不到本機審查資料；請先執行 npm run course:review。");
+        const candidate = JSON.parse(await manifestResponse.text()) as CourseManifest;
+        const candidateResult = validateManifest(candidate);
+        if (!candidateResult.ok) throw new Error(candidateResult.errors.join("\n"));
+        const pdf = new File([await pdfResponse.blob()], candidate.source.fileName, { type: "application/pdf" });
+        await loadPdf(pdf, candidate);
+      } catch (error) {
+        setNotice(error instanceof Error ? error.message : "本機 Agent 草稿無法載入；仍可手動選擇 PDF 與 Manifest。");
+        setBusy(false);
+      }
+    })();
+  }, [loadPdf]);
 
   const toggleBoundary = (page: number) => {
     if (!manifest || page === 1) return;
@@ -171,7 +190,7 @@ export function BuilderApp() {
   };
 
   const createCourse = async () => {
-    if (!file || !manifest || !documentRef.current || !inviteCode || !visualConfirmed || !validation.ok) { setNotice("請完成頁面檢查、修正分段錯誤並勾選視覺確認。"); return; }
+    if (!file || !manifest || !documentRef.current || !inviteCode || !privacyConfirmed || !visualConfirmed || !validation.ok) { setNotice("請輸入邀請碼、確認教材可上傳，完成頁面檢查並修正分段錯誤。"); return; }
     setBusy(true);
     try {
       setNotice("正在建立課程資料…");
@@ -208,24 +227,26 @@ export function BuilderApp() {
       <section className="builder-intro">
         <p className="eyebrow">PDF → CONTENT MAP → CLASSROOM</p>
         <h1>保留原講義，<br />只整理課堂脈絡。</h1>
-        <p>AI 只協助辨認內容分段。停靠頁、提問節奏與最後決定都由教師掌握。</p>
+        <p>可匯入 Codex／Claude Code 的分段草稿，也可完全由教師人工整理。停靠頁、提問節奏與最後決定都由教師掌握。</p>
       </section>
 
       <section className="builder-panel upload-panel">
         <div><span className="step-number">01</span><div><h2>選擇講義</h2><p>未加密 PDF，最多 20 MB／100 頁。</p></div></div>
         <label className="field-label">Pilot 邀請碼<input type="password" value={inviteCode} onChange={(event) => setInviteCode(event.target.value)} placeholder="輸入受控試用邀請碼" /></label>
         <label className="drop-zone"><input type="file" accept="application/pdf" disabled={busy} onChange={(event) => { const selected = event.target.files?.[0]; if (selected) void loadPdf(selected); }} /><b>{file ? file.name : "選擇 PDF"}</b><span>{manifest ? `${manifest.source.pageCount} 頁 · checksum ${manifest.source.sha256.slice(0, 10)}…` : "內容與頁序不會被改寫"}</span></label>
-        <label className="consent-row"><input type="checkbox" checked={consent} onChange={(event) => setConsent(event.target.checked)} /><span>我確認教材不含病人姓名、病歷號或其他敏感個資，並了解 Gemini free tier 的內容可能用於改善 Google 產品；送出前可閱讀 <a href="https://ai.google.dev/gemini-api/docs/pricing" target="_blank" rel="noreferrer">官方資料政策</a>。</span></label>
-        <button className="primary-button" disabled={busy || !manifest || !inviteCode || !consent} onClick={() => void analyze()}>分析課名與內容分段</button>
+        <label className="consent-row"><input type="checkbox" checked={privacyConfirmed} onChange={(event) => setPrivacyConfirmed(event.target.checked)} /><span>我確認有權將這份教材存入本 Paper Lab 環境，且教材不含病人姓名、病歷號或其他敏感個資。</span></label>
         <p className="builder-notice" role="status">{notice}{busy && progress > 0 ? ` ${progress}%` : ""}</p>
       </section>
 
       {manifest && thumbs.length > 0 && (
         <>
           <section className="builder-panel">
-            <div><span className="step-number">02</span><div><h2>逐頁確認</h2><p>點選頁面可新增分段起點或停靠提醒。</p></div></div>
+            <div><span className="step-number">02</span><div><h2>選擇整理方式並逐頁確認</h2><p>匯入 Agent 草稿，或直接從單一段落開始人工調整。</p></div></div>
             <label className="field-label">課程名稱<input value={manifest.title} onChange={(event) => setManifest({ ...manifest, title: event.target.value })} /></label>
-            <label className="manifest-import">從 Web／Claude Code 匯入既有 Manifest<input type="file" accept="application/json" onChange={(event) => { const selected = event.target.files?.[0]; if (selected) void importManifest(selected); }} /></label>
+            <div className="segmentation-options">
+              <label className="manifest-import"><span><b>匯入 Agent 草稿</b><small>接受 Codex／Claude Code 產生、且與目前 PDF checksum 相同的 Manifest。</small></span><input type="file" accept="application/json" onChange={(event) => { const selected = event.target.files?.[0]; if (selected) void importManifest(selected); }} /></label>
+              <div className="manual-segmentation"><b>直接人工分段</b><small>點選任一頁的「從此分段」，即可拆分目前的連續段落；不需要任何模型 API。</small></div>
+            </div>
             <div className="page-timeline">
               {thumbs.map((thumb) => {
                 const section = manifest.sections.find((item) => thumb.page >= item.startPage && thumb.page <= item.endPage)!;
@@ -240,7 +261,7 @@ export function BuilderApp() {
           </section>
 
           <section className="builder-panel">
-            <div><span className="step-number">03</span><div><h2>段落內容</h2><p>AI 建議必須由教師回看頁碼後確認。</p></div></div>
+            <div><span className="step-number">03</span><div><h2>段落內容</h2><p>Agent 草稿或人工設定都必須由教師回看頁碼後確認。</p></div></div>
             <div className="section-editor-list">
               {manifest.sections.map((section, index) => <article key={section.id}>
                 <span>{String(index + 1).padStart(2, "0")}</span>
@@ -250,7 +271,7 @@ export function BuilderApp() {
             </div>
             {!validation.ok && <div className="validation-errors">{validation.errors.map((error) => <p key={error}>{error}</p>)}</div>}
             <label className="consent-row"><input type="checkbox" checked={visualConfirmed} onChange={(event) => setVisualConfirmed(event.target.checked)} /><span>我已檢查第一頁、代表性中間頁與最後一頁，確認無裁切、旋轉錯誤或不可讀文字。</span></label>
-            <button className="primary-button create-course-button" disabled={busy || !visualConfirmed || !validation.ok} onClick={() => void createCourse()}>確認並建立互動課堂</button>
+            <button className="primary-button create-course-button" disabled={busy || !privacyConfirmed || !visualConfirmed || !validation.ok} onClick={() => void createCourse()}>確認並建立互動課堂</button>
           </section>
         </>
       )}

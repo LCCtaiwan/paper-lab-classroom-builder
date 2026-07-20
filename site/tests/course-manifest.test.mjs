@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { createFallbackManifest, normalizeAnalysisDraft, sectionForPage, validateManifest } from "../lib/course-manifest.mjs";
+import { createFallbackManifest, sectionForPage, validateManifest } from "../lib/course-manifest.mjs";
 
 const fallback = createFallbackManifest({
   courseId: "sample-course",
@@ -31,19 +31,16 @@ test("rejects gaps, overlap, duplicate checkpoints and out-of-range pages", () =
   assert.match(result.errors.join("\n"), /startPage|endPage|checkpoints/);
 });
 
-test("accepts a legal analysis draft and maps pages to sections", () => {
-  const manifest = normalizeAnalysisDraft({
+test("accepts a legal agent draft and maps pages to sections", () => {
+  const manifest = {
+    ...fallback,
     title: "兩段課程",
     sections: [
-      { title: "前半", summary: "前半摘要", startPage: 1, endPage: 8, evidencePages: [1, 8] },
-      { title: "後半", summary: "後半摘要", startPage: 9, endPage: 16, evidencePages: [9, 16] },
+      { id: "section-1", title: "前半", summary: "前半摘要", startPage: 1, endPage: 8, evidencePages: [1, 8] },
+      { id: "section-2", title: "後半", summary: "後半摘要", startPage: 9, endPage: 16, evidencePages: [9, 16] },
     ],
-  }, fallback);
+  };
+  assert.equal(validateManifest(manifest).ok, true);
   assert.equal(manifest.sections.length, 2);
   assert.equal(sectionForPage(manifest, 12).id, "section-2");
-});
-
-test("falls back when AI draft does not cover all pages", () => {
-  const manifest = normalizeAnalysisDraft({ title: "Bad", sections: [] }, fallback);
-  assert.deepEqual(manifest, fallback);
 });

@@ -23,4 +23,3 @@ export function validateManifest(manifest: unknown): { ok: boolean; errors: stri
 export function assertManifest<T = CourseManifest>(manifest: T): T;
 export function parseManifest(text: string): CourseManifest;
 export function sectionForPage(manifest: CourseManifest, page: number): CourseSection;
-export function normalizeAnalysisDraft(draft: unknown, fallback: CourseManifest): CourseManifest;

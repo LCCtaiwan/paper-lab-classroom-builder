@@ -32,27 +32,27 @@ export default function GuidePage() {
 
       <article className="guide-content">
         <section id="before" className="guide-section">
-          <p className="guide-kicker">開始前</p><h2>先準備一份可以安全處理的 PDF</h2><p>確認 PDF 未加密、不超過 20 MB／100 頁，並由教師判斷教材不含病人姓名、病歷號或其他敏感資訊。若教材不能送至外部 AI，請不要勾選資料同意；你仍可採人工分段或 Claude Code 本機流程。</p>
+          <p className="guide-kicker">開始前</p><h2>先準備一份可以安全處理的 PDF</h2><p>確認 PDF 未加密、不超過 20 MB／100 頁，並由教師判斷教材不含病人姓名、病歷號或其他敏感資訊。Web Builder 不呼叫模型 API；可匯入 Codex／Claude Code 草稿，或完全採人工分段。</p>
           <div className="guide-callout"><b>本機 Pilot 提醒</b><p>邀請碼只保護「建立課程」。學生加入時只需要每場新產生的六碼，不需要 Pilot 邀請碼。</p></div>
         </section>
 
         <section id="step-1" className="guide-section">
-          <p className="guide-kicker">STEP 01</p><h2>輸入邀請碼並選擇 PDF</h2><ol><li>開啟「課程建立器」。</li><li>輸入管理者提供的 Pilot 邀請碼。</li><li>按「選擇 PDF」，選取講義。</li><li>確認教材資料政策後，再勾選同意事項。</li></ol>
+          <p className="guide-kicker">STEP 01</p><h2>輸入邀請碼並選擇 PDF</h2><ol><li>開啟「課程建立器」。</li><li>輸入管理者提供的 Pilot 邀請碼。</li><li>按「選擇 PDF」，選取講義。</li><li>確認有權上傳且不含敏感個資後，再勾選確認事項。</li></ol>
           <Shot file="guide-step-1-upload.png" alt="Paper Lab 課程建立器的 PDF 上傳區" caption="畫面 1：最初只需要邀請碼、PDF 與資料確認。" />
           <p>讀取完成後，檔名下方會顯示頁數與 checksum。示範教材應顯示 <b>59 頁</b>；頁數不符時先停止，不要繼續建課。</p>
-          <Shot file="guide-step-2-loaded.png" alt="59 頁運動禁藥 PDF 已載入 Paper Lab" caption="畫面 2：系統已辨識 59 頁。未設定 Gemini 時會自動切換人工分段，仍可繼續。" />
+          <Shot file="guide-step-2-loaded.png" alt="59 頁運動禁藥 PDF 與 Agent 草稿已載入 Paper Lab" caption="畫面 2：系統已辨識 59 頁，並載入 Agent 建議的五個連續段落；沒有草稿時則從單一完整段落開始。" />
         </section>
 
         <section id="step-2" className="guide-section">
           <p className="guide-kicker">STEP 02</p><h2>先看頁面，再談分段</h2><p>時間軸會顯示全部頁面的縮圖。至少查看第 1、30、59 頁，確認沒有裁切、旋轉、黑頁或不可讀文字。頁面按鈕有兩種用途：</p><div className="guide-two-col"><div><b>從此分段</b><p>表示這一頁是新主題的第一頁。系統會自動結束前一段，不必手算結束頁。</p></div><div><b>設為停靠</b><p>表示講師預計在這一頁整理學生問題；它不會自動中斷投影。</p></div></div>
-          <Shot file="guide-step-3-timeline.png" alt="運動禁藥講義的頁面縮圖、分段與停靠按鈕" caption="畫面 3：逐頁時間軸。橘色狀態代表教師設定的問題整理頁。" />
+          <Shot file="guide-step-3-timeline.png" alt="運動禁藥講義的頁面縮圖、分段與停靠按鈕" caption="畫面 3：逐頁時間軸。教師可增減分段，並自行選擇問題整理停靠頁。" />
         </section>
 
         <section id="step-3" className="guide-section">
           <p className="guide-kicker">STEP 03</p><h2>把 59 頁整理成教師看得懂的五段</h2><p>這是示範建議，不是系統強制答案。教師可以依實際授課節奏調整名稱、摘要與分段起點。</p>
           <div className="guide-table" role="table" aria-label="示範課程分段"><div className="guide-table-head" role="row"><span>段</span><span>名稱</span><span>頁碼</span><span>章末停靠</span></div>{courseSections.map(([number, title, pages, checkpoint]) => <div role="row" key={number}><b>{number}</b><span>{title}</span><span>{pages}</span><span>{checkpoint}</span></div>)}</div>
           <p>完成後，在段落內容區逐段檢查名稱和摘要。最後勾選「我已檢查第一頁、代表性中間頁與最後一頁」，建立按鈕才會啟用。</p>
-          <Shot file="guide-step-4-sections.png" alt="五個運動禁藥課程段落與視覺確認" caption="畫面 4：五段連續覆蓋 p.1–59，沒有缺頁或重疊，視覺確認已完成。" />
+          <Shot file="guide-step-4-sections.png" alt="五個運動禁藥課程段落與視覺確認" caption="畫面 4：五段連續覆蓋 p.1–59，沒有缺頁或重疊；建立前仍須由教師完成視覺確認。" />
         </section>
 
         <section id="step-4" className="guide-section">

@@ -23,7 +23,7 @@ export function createFallbackManifest({ courseId, title, fileName, sha256, page
       {
         id: "section-1",
         title: "完整講義",
-        summary: "AI 尚未提供合法分段，請由教師依講義內容調整。",
+        summary: "請匯入 Agent 草稿，或由教師依講義內容自行調整分段。",
         startPage: 1,
         endPage: pageCount,
         evidencePages: pageCount === 1 ? [1] : [1, pageCount],
@@ -109,23 +109,4 @@ export function parseManifest(text) {
 
 export function sectionForPage(manifest, page) {
   return manifest.sections.find((section) => page >= section.startPage && page <= section.endPage) ?? manifest.sections[0];
-}
-
-export function normalizeAnalysisDraft(draft, fallback) {
-  const sections = Array.isArray(draft?.sections)
-    ? draft.sections.map((section, index) => ({
-        id: `section-${index + 1}`,
-        title: String(section?.title ?? "").trim(),
-        summary: String(section?.summary ?? "").trim(),
-        startPage: Number(section?.startPage),
-        endPage: Number(section?.endPage),
-        evidencePages: Array.isArray(section?.evidencePages) ? section.evidencePages.map(Number) : [],
-      }))
-    : [];
-  const candidate = {
-    ...fallback,
-    title: String(draft?.title ?? fallback.title).trim() || fallback.title,
-    sections,
-  };
-  return validateManifest(candidate).ok ? candidate : fallback;
 }

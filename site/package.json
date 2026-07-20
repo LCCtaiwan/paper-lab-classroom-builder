@@ -16,6 +16,7 @@
     "course:import": "node scripts/course-import.mjs",
     "course:validate": "node scripts/course-validate.mjs",
     "course:preview": "node scripts/course-preview.mjs",
+    "course:review": "node scripts/course-review.mjs",
     "course:export": "node scripts/course-export.mjs"
   },
   "dependencies": {

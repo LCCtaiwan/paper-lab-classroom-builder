@@ -15,8 +15,6 @@ const localBindingConfig = {
   compatibility_flags: ["nodejs_compat"],
   vars: {
     ...(process.env.PILOT_INVITE_CODE ? { PILOT_INVITE_CODE: process.env.PILOT_INVITE_CODE } : {}),
-    ...(process.env.GEMINI_API_KEY ? { GEMINI_API_KEY: process.env.GEMINI_API_KEY } : {}),
-    ...(process.env.GEMINI_MODEL ? { GEMINI_MODEL: process.env.GEMINI_MODEL } : {}),
   },
   d1_databases: d1
     ? [

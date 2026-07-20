@@ -11,6 +11,7 @@
     "course:import": "npm --prefix site run course:import --",
     "course:validate": "npm --prefix site run course:validate --",
     "course:preview": "npm --prefix site run course:preview --",
+    "course:review": "npm --prefix site run course:review --",
     "course:export": "npm --prefix site run course:export --"
   }
 }

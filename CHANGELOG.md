@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+### C-004 — 2026-07-21
+
+- Changed：將分段入口改為 Codex／Claude Code 草稿或教師人工分段，Web Builder 不再依賴 Gemini API。
+- Added：完成 `course:review` 本機審查流程，驗證 PDF checksum／頁數後把 Agent 草稿交由 `/build?draft=local` 逐頁確認。
+- Changed：Web Builder 顯示「匯入 Agent 草稿」與「直接人工分段」；移除 Gemini route、key、model、consent 與分析按鈕。
+- Changed：更新 `/guide` 前四張真實截圖與說明，使操作文件符合 Agent 草稿／人工雙入口。
+- Why：讓講師直接使用既有 Agent 或完全自行分段，減少額外 API key、資料政策與模型供應商依賴。
+- Verified：lint、production build、11/11 tests；59 頁實際講義的 5 段 Agent 草稿與單一段落人工 fallback 均通過；手機 390 px 無溢位、59 張縮圖完整、console 0 errors。
+- Gate：C-004 artifact `pass`；完整 Pilot 仍因正式部署與實體彩排維持 `revise`。
+
 ### C-003 — 2026-07-20
 
 - Added：完成共用 Manifest validator、PDF import／validate／preview／export CLI 與根目錄 `CLAUDE.md`。

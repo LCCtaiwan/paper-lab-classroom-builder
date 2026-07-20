@@ -24,3 +24,29 @@ test("runtime course behavior is driven by the manifest", async () => {
     assert.doesNotMatch(source, /\bpageCount\s*=\s*64\b|Array\(64\)|\/\s*64\b/);
   }
 });
+
+test("builder supports agent drafts and teacher-authored segmentation without Gemini", async () => {
+  const [builder, viteConfig, envExample] = await Promise.all([
+    readFile(new URL("../app/build/BuilderApp.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../vite.config.ts", import.meta.url), "utf8"),
+    readFile(new URL("../.env.example", import.meta.url), "utf8"),
+  ]);
+  assert.match(builder, /匯入 Agent 草稿/);
+  assert.match(builder, /直接人工分段/);
+  assert.match(builder, /build\?draft=local|draft"\) !== "local"/);
+  assert.doesNotMatch(`${builder}\n${viteConfig}\n${envExample}`, /GEMINI|generativelanguage|\/api\/analyze/);
+});
+
+test("course review verifies PDF identity before preparing local artifacts", async () => {
+  const [reviewScript, rootPackage, sitePackage] = await Promise.all([
+    readFile(new URL("../scripts/course-review.mjs", import.meta.url), "utf8"),
+    readFile(new URL("../../package.json", import.meta.url), "utf8"),
+    readFile(new URL("../package.json", import.meta.url), "utf8"),
+  ]);
+  assert.match(reviewScript, /manifest\.source\.sha256 !== inspected\.sha256/);
+  assert.match(reviewScript, /manifest\.source\.pageCount !== inspected\.pageCount/);
+  assert.match(reviewScript, /local-course\.manifest\.json/);
+  assert.match(reviewScript, /local-course\.pdf/);
+  assert.match(rootPackage, /course:review/);
+  assert.match(sitePackage, /course-review\.mjs/);
+});
