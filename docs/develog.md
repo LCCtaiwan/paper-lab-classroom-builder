@@ -2,7 +2,7 @@
 
 ## Current Goal
 
-實作 C-007 Open-source packaging：建立可安全公開、可複製、支援 Web／Codex／Claude Code 且能獨立部署的 GitHub Template-ready 專案。
+實作 C-008 GitHub Public Template Release：將已通過 C-007 的專案發布為 MIT／Public／Template repository，並以公開 URL 乾淨 clone 驗證後建立 `v0.1.0`。
 
 ## Stack And Run Commands
 
@@ -23,6 +23,7 @@
 - 2026-07-21：教師確認門檻統一放在 Web Builder；Agent 不得自動設定停靠頁或跳過視覺檢查。
 - 2026-07-21：開源包採 MIT License；GitHub 公開動作與本地 packaging gate 分開，未明確核准前不對外發布。
 - 2026-07-21：真實講義、真實講義截圖、個人 Sites project id 與所有 secrets 均排除於公開包。
+- 2026-07-21：使用者核准 `paper-lab-classroom-builder`、MIT 與 Public visibility；C-008 不包含 Sites 重新部署。
 
 ## Important Project Rules
 
@@ -61,14 +62,15 @@
 - 2026-07-21：桌面與 390 px `/guide` 視覺檢查無水平溢位、無外部圖片、console 0 errors，artifact `pass`。
 - 2026-07-21：乾淨 staging 匯出副本依 README 完成 `npm ci`、demo 匯入、Manifest 驗證、Web review、lint、production build、13/13 tests 與 release check，全部 `pass`。
 - 2026-07-21：`npm audit --omit=dev --audit-level=high` 無 high／critical；Next.js 內嵌 PostCSS 保留 2 個 moderate advisories，自動修正會造成不相容降級，已公開記錄於 `SECURITY.md`。
+- 2026-07-21：C-008 發布邊界與 sequence 已加入 SDD；GitHub CLI 現有 `LCCtaiwan` token 失效，官方 device authorization 進行中。
 
 ## Current Checkpoint
 
-C-007 本地 open-source artifact 已完成；公開包只含合成教材、通用設定與三條共用入口，尚未建立或推送公開 GitHub repository。
+C-007 本地 artifact 與 commit `02679be` 已完成；C-008 已獲公開授權，目前等待 GitHub device authorization，尚未建立 repository。
 
 ## Recommended Next Step
 
-請使用者確認 `paper-lab-classroom-builder`、MIT License 與 public visibility；獲得明確核准後才建立 GitHub Template repository 與 `v0.1.0` tag。
+完成 GitHub device authorization 後建立 Public Template repository；由公開 URL 乾淨 clone 驗證，全部 `pass` 後才建立 `v0.1.0`。
 
 ## Verification Status
 

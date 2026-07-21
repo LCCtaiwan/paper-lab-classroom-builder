@@ -2,18 +2,18 @@
 
 ## Current Status
 
-`C-007` — 2026-07-21 — Open-source packaging 已完成本地 artifact；專案已可作為不含個人部署識別、私人教材或 secrets 的 GitHub Template-ready 專案。
+`C-008` — 2026-07-21 — GitHub Public Template Release 進行中；使用者已核准 `paper-lab-classroom-builder`、MIT 與 Public visibility，等待 GitHub device authorization 後發布。
 
 ## In Progress
 
-- 等待使用者確認 repository 名稱、MIT License 與公開 GitHub visibility。
-- 正式 Builder 雙入口及實體設備 Pilot 彩排仍屬後續驗收。
+- 重新授權 GitHub CLI，建立公開 repository 並推送 `main`。
+- 從 GitHub 乾淨 clone 驗證 Quick Start；通過後才建立 `v0.1.0` tag。
 
 ## Next
 
-1. 使用者確認 License、公開內容與 GitHub repository 名稱。
-2. 獲得明確核准後建立公開 GitHub Template repository。
-3. 公開後勾選 Template repository，完成 clone smoke test 並建立 `v0.1.0` tag。
+1. 完成 GitHub device authorization。
+2. 建立 Public repository、推送 `main` 並啟用 Template repository。
+3. 完成 public clone smoke test 並建立 `v0.1.0` tag。
 4. 另行完成正式 Builder 與實體設備 Pilot 彩排。
 
 ## Notes

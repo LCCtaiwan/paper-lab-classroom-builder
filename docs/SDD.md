@@ -128,3 +128,30 @@ Claude Code 與 Codex 都是可選的內容結構助理；沒有 Agent 時仍可
 - 公開包不得包含真實講義檔名、真實講義截圖或個人部署識別。
 - 全新 clone 必須只依 README／`CLAUDE.md` 完成 Agent 與人工兩條入口。
 - 建立 public GitHub repository、切換可見度或 push 仍需使用者在本地 artifact `pass` 後明確核准。
+
+## 10. C-008 GitHub Public Template Release
+
+### 10.1 Release target
+
+- Repository：`LCCtaiwan/paper-lab-classroom-builder`。
+- Visibility：Public。
+- License：MIT。
+- Default branch：`main`。
+- GitHub Template repository：enabled。
+- Homepage：既有 Paper Lab Sites Pilot；公開 source 與 Sites production 資料互不共用。
+
+### 10.2 Publication sequence
+
+1. 確認本地 worktree、release check 與 C-007 commit。
+2. 建立空的公開 GitHub repository，不自動加入 README、License 或 `.gitignore`。
+3. 將本地 `main` 設定為 `origin/main` 並推送。
+4. 啟用 Template repository，確認 public visibility、default branch 與 MIT License。
+5. 從 GitHub URL 乾淨 clone，依 README 執行安裝、demo PDF 匯入、Manifest validate／review、lint、build、tests 與 release check。
+6. 只有所有驗證 `pass` 後才建立並推送 `v0.1.0` annotated tag。
+
+### 10.3 Safety gates
+
+- GitHub 認證只透過官方 CLI／device flow，不把 token 寫入專案或交班紀錄。
+- Public clone 不得取得維護者 Sites project id、D1／R2 id、邀請碼、私人教材、生成課程 assets 或本機絕對路徑。
+- 建立 repository 與 tag 是外部不可忽略動作；使用者已在 2026-07-21 明確核准名稱、MIT 與 Public visibility。
+- C-008 不重新部署 Sites、不修改 production secret 或既有課程資料。
