@@ -18,6 +18,7 @@
 ## 標準工作流
 
 1. 確認 `content/handout.pdf` 存在；先詢問教師教材是否含病人個資或其他敏感資訊。
+   第一次測試可先執行 `cp examples/paper-lab-demo.pdf content/handout.pdf`。
 2. 執行：
 
    ```bash

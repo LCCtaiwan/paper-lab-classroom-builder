@@ -18,6 +18,12 @@ export function parseArgs(argv) {
   return args;
 }
 
+export function resolveArgPath(value, fallback) {
+  const supplied = value !== undefined && value !== null && value !== false;
+  const raw = String(supplied ? value : fallback);
+  return resolve(supplied && process.env.INIT_CWD ? process.env.INIT_CWD : process.cwd(), raw);
+}
+
 export function inspectPdf(pdfPath) {
   const absolute = resolve(pdfPath);
   if (!existsSync(absolute)) throw new Error(`找不到 PDF：${absolute}`);

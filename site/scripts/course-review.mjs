@@ -1,11 +1,10 @@
 import { copyFileSync, readFileSync, writeFileSync } from "node:fs";
-import { resolve } from "node:path";
 import { parseManifest } from "../lib/course-manifest.mjs";
-import { ensureParent, inspectPdf, parseArgs } from "./course-utils.mjs";
+import { ensureParent, inspectPdf, parseArgs, resolveArgPath } from "./course-utils.mjs";
 
 const args = parseArgs(process.argv.slice(2));
-const manifestPath = resolve(String(args.manifest || "../course.manifest.json"));
-const pdfPath = resolve(String(args.pdf || "../content/handout.pdf"));
+const manifestPath = resolveArgPath(args.manifest, "../course.manifest.json");
+const pdfPath = resolveArgPath(args.pdf, "../content/handout.pdf");
 const manifest = parseManifest(readFileSync(manifestPath, "utf8"));
 const inspected = inspectPdf(pdfPath);
 
@@ -16,8 +15,8 @@ if (manifest.source.pageCount !== inspected.pageCount) {
   throw new Error("Manifest 的 PDF 頁數與指定講義不一致。");
 }
 
-const publicManifest = resolve("public/local-course.manifest.json");
-const publicPdf = resolve("public/local-course.pdf");
+const publicManifest = resolveArgPath(undefined, "public/local-course.manifest.json");
+const publicPdf = resolveArgPath(undefined, "public/local-course.pdf");
 ensureParent(publicManifest);
 writeFileSync(publicManifest, `${JSON.stringify(manifest, null, 2)}\n`);
 copyFileSync(inspected.absolute, publicPdf);

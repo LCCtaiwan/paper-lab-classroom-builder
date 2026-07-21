@@ -11,6 +11,7 @@ tmp/
 .env
 .env.local
 course.manifest.json
+content/*.pdf
 site/public/local-course.manifest.json
 site/public/local-course.pdf
 site/public/courses/

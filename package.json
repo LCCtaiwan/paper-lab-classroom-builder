@@ -7,6 +7,8 @@
     "build": "npm --prefix site run build",
     "test": "npm --prefix site test",
     "lint": "npm --prefix site run lint",
+    "demo:pdf": "python3 scripts/create-demo-pdf.py",
+    "release:check": "node scripts/release-check.mjs",
     "deploy:cloudflare": "npm --prefix site run deploy:cloudflare",
     "course:import": "npm --prefix site run course:import --",
     "course:validate": "npm --prefix site run course:validate --",

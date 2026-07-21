@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { inspectPdf, MAX_PDF_BYTES } from "../scripts/course-utils.mjs";
+import { inspectPdf, MAX_PDF_BYTES, resolveArgPath } from "../scripts/course-utils.mjs";
 
 function withTempFile(name, contents, run) {
   const directory = mkdtempSync(join(tmpdir(), "paper-lab-pdf-"));
@@ -40,4 +40,15 @@ test("rejects a PDF over 20 MB before parsing", () => {
   withTempFile("oversize.pdf", bytes, (file) => {
     assert.throws(() => inspectPdf(file), /1 byte–20 MB/);
   });
+});
+
+test("root npm commands resolve explicit paths from INIT_CWD", () => {
+  const previous = process.env.INIT_CWD;
+  process.env.INIT_CWD = "/tmp/paper-lab-root";
+  try {
+    assert.equal(resolveArgPath("content/handout.pdf", "../content/handout.pdf"), "/tmp/paper-lab-root/content/handout.pdf");
+  } finally {
+    if (previous === undefined) delete process.env.INIT_CWD;
+    else process.env.INIT_CWD = previous;
+  }
 });

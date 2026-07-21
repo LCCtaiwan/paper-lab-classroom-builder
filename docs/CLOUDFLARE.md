@@ -14,6 +14,8 @@
 
 ## Deploy
 
+每個公開 clone 都會建立自己的 Cloudflare 資源。repository 內的 `site/.openai/hosting.json` 只含 `DB`／`FILES` 邏輯 binding，不含維護者的 Sites project id、D1 id 或 R2 bucket id。
+
 ```bash
 cd site
 npm install

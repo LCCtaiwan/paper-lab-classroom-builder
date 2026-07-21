@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+### C-007 — 2026-07-21
+
+- Added：MIT License、公開 Quick Start、貢獻／安全指南、GitHub Issue／PR templates、架構文件、Claude Code fallback、3 頁合成 demo PDF 與可重現產生器。
+- Changed：移除公開設定中的個人 Sites project id，將真實講義教學截圖改為合成 demo 的文字／CSS 操作示意；修正根目錄 CLI 參數相對路徑。
+- Fixed：建課邀請碼錯誤明確回傳 403，伺服器未設定 production 邀請碼時回傳 503。
+- Added：`npm run release:check` 阻擋 secrets、私人教材、生成課程 assets、本機絕對路徑與個人部署識別進入公開包。
+- Why：讓其他教師能安全複製同一套 Web／Codex／Claude Code 課堂核心，並部署自己的 D1、R2、網址與邀請碼。
+- Verified：release check、lint、production build、13/13 tests、合成 PDF 首／中／末頁視覺檢查、桌面／390 px guide，以及乾淨匯出副本的安裝、匯入、驗證與測試均 `pass`；production audit 無 high／critical，保留 2 個已記錄的 moderate PostCSS advisories。
+- Gate：C-007 本地 open-source artifact `pass`；尚未建立或推送公開 GitHub repository，等待使用者明確核准。
+
 ### C-006 — 2026-07-21
 
 - Changed：將 Sites 存取模式改為公開網址，移除 ChatGPT 登入門檻。
@@ -31,7 +41,7 @@
 
 - Added：完成共用 Manifest validator、PDF import／validate／preview／export CLI 與根目錄 `CLAUDE.md`。
 - Added：完成 Web Builder、D1／R2 課程資料、獨立場次、六碼加入、講師／投影／學生三端、提問、同問、隱藏、指定投影與課後回顧。
-- Added：建立 `/guide` 響應式 HTML，以 59 頁「運動禁藥知多少」講義的 11 張真實操作截圖說明完整流程。
+- Added：建立 `/guide` 響應式 HTML，使用一份經授權的 59 頁內部講義完成真實產品流程驗證。
 - Changed：建課頁加入「操作教學」入口；社群分享 metadata 使用已驗收的 Paper Lab 圖像。
 - Fixed：隱藏問題改用專用 CSS 狀態，確保學生端不可見但講師課後仍可回顧。
 - Why：讓沒有 Codex／Claude 的教師也能看圖完成建課，同時保留跨 Agent 相同的課程資料契約。

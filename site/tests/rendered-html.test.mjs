@@ -50,3 +50,18 @@ test("course review verifies PDF identity before preparing local artifacts", asy
   assert.match(rootPackage, /course:review/);
   assert.match(sitePackage, /course-review\.mjs/);
 });
+
+test("open-source package uses synthetic guidance and explicit invite statuses", async () => {
+  const [guide, security, hosting, rootPackage] = await Promise.all([
+    readFile(new URL("../app/guide/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../lib/security.ts", import.meta.url), "utf8"),
+    readFile(new URL("../.openai/hosting.json", import.meta.url), "utf8"),
+    readFile(new URL("../../package.json", import.meta.url), "utf8"),
+  ]);
+  assert.match(guide, /paper-lab-demo\.pdf|SYNTHETIC DEMO/);
+  assert.doesNotMatch(guide, /guide-step-/);
+  assert.match(security, /status: 403/);
+  assert.match(security, /status: 503/);
+  assert.doesNotMatch(hosting, /project_id|appgprj_/);
+  assert.match(rootPackage, /release:check/);
+});

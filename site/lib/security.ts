@@ -22,9 +22,13 @@ export async function tokenMatches(token: string, expectedHash: string) {
 
 export function requirePilotInvite(request: Request) {
   const configured = String((env as unknown as { PILOT_INVITE_CODE?: string }).PILOT_INVITE_CODE ?? "");
-  if (configured.length < 12) throw new Error("伺服器尚未設定至少 12 字元的 PILOT_INVITE_CODE。");
+  if (configured.length < 12) {
+    throw Response.json({ error: "伺服器尚未設定至少 12 字元的 PILOT_INVITE_CODE。" }, { status: 503 });
+  }
   const supplied = request.headers.get("x-pilot-code") ?? "";
-  if (!supplied || supplied !== configured) throw new Error("Pilot 邀請碼不正確。");
+  if (!supplied || supplied !== configured) {
+    throw Response.json({ error: "Pilot 邀請碼不正確。" }, { status: 403 });
+  }
 }
 
 export function getFilesBucket() {

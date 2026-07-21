@@ -1,0 +1,33 @@
+name: Feature request
+description: Propose a focused improvement to the shared Paper Lab workflow.
+title: "[Feature] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Teaching problem
+      description: What teacher or student problem should this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+    validations:
+      required: true
+  - type: checkboxes
+    id: boundaries
+    attributes:
+      label: Product boundaries
+      options:
+        - label: This keeps the Manifest as the single course source of truth.
+          required: true
+        - label: This preserves teacher confirmation before publishing.
+          required: true
