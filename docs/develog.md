@@ -2,7 +2,7 @@
 
 ## Current Goal
 
-實作 C-005 Sites 私人 Pilot：設定 production 邀請碼、發布 D1／R2 版本，並以正式網址驗證建課與三端課堂流程。
+實作 C-006 公開 Pilot：移除 ChatGPT 登入門檻，同時保留邀請碼建課與秘密管理連結。
 
 ## Stack And Run Commands
 
@@ -50,14 +50,15 @@
 - 2026-07-21：C-005 建立 Sites 私人專案並將高熵 `PILOT_INVITE_CODE` 儲存在託管端秘密；專案檔案不保存明文邀請碼。
 - 2026-07-21：Sites private version 1 發布成功；正式網址為 `https://paper-lab-classroom-pilot.pharmacist-lee.chatgpt.site`。
 - 2026-07-21：以 1 頁實際講義 smoke course 驗證 D1／R2、六碼場次、問題頁碼綁定、同問防重複、指定／收回投影與關閉場次。
+- 2026-07-21：C-006 將 Sites access mode 改為 public；未登入、未帶 bypass token 的首頁請求直接回傳 Paper Lab，HTTP 200。
 
 ## Current Checkpoint
 
-C-005 私人部署與正式 runtime smoke 已 `pass`。自動瀏覽器停在 ChatGPT 登入門檻；登入後的 Builder 視覺雙入口及實體設備彩排仍待完成。
+C-006 公開存取設定已 `pass`。正式 Builder 視覺雙入口及實體設備彩排仍待完成。
 
 ## Recommended Next Step
 
-講師登入私人網址後，以正式 Builder 完成 Agent 草稿與人工分段視覺彩排，再執行實體雙螢幕／兩支手機測試。
+以正式 Builder 完成 Agent 草稿與人工分段視覺彩排，再執行實體雙螢幕／兩支手機測試。
 
 ## Verification Status
 
@@ -73,4 +74,5 @@ C-005 私人部署與正式 runtime smoke 已 `pass`。自動瀏覽器停在 Cha
 - C-004 Mobile：390 px `scrollWidth === innerWidth`、59 張縮圖、0 張損壞、console 0 errors，artifact `pass`。
 - C-005 Sites：private version 1 部署成功；production secret、D1、R2 與正式網址 smoke `pass`。
 - C-005 Runtime：測試課程 ready、六碼場次、學生問題綁定 p.1／section-1、首次同問成功、重複同問被辨識、指定投影成功、四端 HTTP 200，測試場次已關閉。
-- Pilot 最終狀態：`revise`，只因登入後的 Builder 視覺雙入口與實體雙螢幕／兩支手機彩排尚未完成。
+- C-006 Access：Sites public mode；未登入首頁 HTTP 200 且直接載入 Paper Lab，未附邀請碼的建課請求仍被拒絕。
+- Pilot 最終狀態：`revise`，只因正式 Builder 視覺雙入口與實體雙螢幕／兩支手機彩排尚未完成。

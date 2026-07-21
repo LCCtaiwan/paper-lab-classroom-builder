@@ -25,10 +25,11 @@
 
 目前進入 Pilot 驗收。64 頁既有講義、16 頁 OpenEvidence PDF 與 59 頁運動禁藥講義均已通過自動化或產品流程驗證；最後仍需完成實體雙螢幕與兩支手機彩排。
 
-## 私人 Pilot
+## Pilot 網站
 
 - 網址：<https://paper-lab-classroom-pilot.pharmacist-lee.chatgpt.site>
-- 存取：先使用 ChatGPT 登入，再以 production 邀請碼建立課程。
+- 存取：不需 ChatGPT 登入；任何取得網址的人都能開啟網站與學生頁。
+- 建課：仍須輸入 production 邀請碼。
 - 邀請碼只保存在 Sites 託管端秘密，不提交到 Git。
 
 ## 重要文件

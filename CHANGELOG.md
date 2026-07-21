@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### C-006 — 2026-07-21
+
+- Changed：將 Sites 存取模式改為公開網址，移除 ChatGPT 登入門檻。
+- Preserved：建立課程 API 仍要求 production `PILOT_INVITE_CODE`；課程管理與講師操作仍使用秘密 token。
+- Why：讓沒有 ChatGPT 帳號的講師與學生也能直接使用 Pilot。
+- Verified：未登入、未帶 Sites bypass token 的首頁請求回傳 Paper Lab，HTTP 200，未進入 sign-in gate；未附邀請碼的建課請求仍被拒絕。
+- Gate：公開存取設定 `pass`；完整 Pilot 仍待正式 Builder 視覺雙入口與實體設備彩排。
+
 ### C-005 — 2026-07-21
 
 - Added：發布擁有者限定的 Sites 私人 Pilot，並在託管端以秘密保存 production `PILOT_INVITE_CODE`。
