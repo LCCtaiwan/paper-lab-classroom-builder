@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+## v0.1.0 — 2026-07-21
+
+### C-008 — 2026-07-21
+
+- Added：建立 <https://github.com/LCCtaiwan/paper-lab-classroom-builder> Public repository，啟用 MIT License、`main` default branch 與 GitHub Template repository。
+- Changed：README Quick Start 改用正式 clone URL，公開 release checklist 記錄已完成 gate。
+- Why：讓其他教師可以直接 clone 或選擇 **Use this template**，使用 Web、Codex 或 Claude Code 建立自己的 Paper Lab 課堂。
+- Verified：GitHub API 確認 public／template／main／MIT；從正式 URL 乾淨 clone 後完成 3 頁 demo 匯入、Manifest validate／review、lint、production build、13/13 tests 與 89-file release check，全部 `pass`。
+- Security：production audit 無 high／critical並保留 2 moderate；完整開發依賴與 GitHub Dependabot advisories 已記錄於 `SECURITY.md`。
+- Gate：C-008 GitHub release `pass`；建立 annotated `v0.1.0` tag。Sites Pilot 未重新部署。
+
 ### C-007 — 2026-07-21
 
 - Added：MIT License、公開 Quick Start、貢獻／安全指南、GitHub Issue／PR templates、架構文件、Claude Code fallback、3 頁合成 demo PDF 與可重現產生器。

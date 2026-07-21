@@ -2,19 +2,19 @@
 
 ## Current Status
 
-`C-008` — 2026-07-21 — GitHub Public Template Release 進行中；使用者已核准 `paper-lab-classroom-builder`、MIT 與 Public visibility，等待 GitHub device authorization 後發布。
+`C-008` — 2026-07-21 — GitHub Public Template Release 完成；Public／MIT／Template repository、正式 clone Quick Start 與 `v0.1.0` release gate 均 `pass`。
 
 ## In Progress
 
-- 重新授權 GitHub CLI，建立公開 repository 並推送 `main`。
-- 從 GitHub 乾淨 clone 驗證 Quick Start；通過後才建立 `v0.1.0` tag。
+- 正式 Builder 雙入口與實體雙螢幕／兩支手機 Pilot 彩排。
+- 規劃邀請 2–5 位教師由 GitHub Template 建立自己的課堂後台。
 
 ## Next
 
-1. 完成 GitHub device authorization。
-2. 建立 Public repository、推送 `main` 並啟用 Template repository。
-3. 完成 public clone smoke test 並建立 `v0.1.0` tag。
-4. 另行完成正式 Builder 與實體設備 Pilot 彩排。
+1. 邀請第一位教師使用 **Use this template**，依 README 完成自己的本機課堂。
+2. 記錄 45 分鐘 workshop 的卡點與完成時間。
+3. 完成實體雙螢幕／兩支手機 Pilot 彩排。
+4. 依 Dependabot 提示評估相容的 dependency updates，不使用 `audit fix --force`。
 
 ## Notes
 
@@ -27,3 +27,5 @@
 - C-006 驗證：無 Sites bypass token、未登入的首頁請求直接回傳 Paper Lab，HTTP 200；未出現 ChatGPT sign-in gate；未附邀請碼的建課請求仍被拒絕。
 - C-007 驗證：MIT 開源包、3 頁合成 demo、公開文件與 release check 完成；lint、production build、13/13 tests、桌面／390 px guide 與乾淨匯出副本 Quick Start 均 `pass`。
 - C-007 dependency audit：production 無 high／critical；Next.js 內嵌 PostCSS 保留 2 個 moderate advisories，原因與更新策略記錄於 `SECURITY.md`。
+- C-008 repository：<https://github.com/LCCtaiwan/paper-lab-classroom-builder>，Public／MIT／main／Template 驗證 `pass`。
+- C-008 public clone：正式 URL 安裝、3 頁 demo 匯入、Manifest validate／review、lint、production build、13/13 tests 與 89-file release check 均 `pass`。

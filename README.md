@@ -10,6 +10,8 @@ PDF -> Course Manifest -> shared Builder -> same classroom runtime
 
 Web、Codex 與 Claude Code 都使用同一份 Manifest 和 runtime。Agent 只協助課名與連續內容分段；停靠頁、畫面確認與建立課程仍由教師決定。
 
+GitHub source／template：<https://github.com/LCCtaiwan/paper-lab-classroom-builder>
+
 ## Try the public Pilot
 
 <https://paper-lab-classroom-pilot.pharmacist-lee.chatgpt.site>

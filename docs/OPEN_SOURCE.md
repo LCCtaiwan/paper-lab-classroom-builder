@@ -14,19 +14,19 @@ npm test
 
 ## GitHub Template
 
-建議 repository 名稱：`paper-lab-classroom-builder`。
+Public template：<https://github.com/LCCtaiwan/paper-lab-classroom-builder>。
 
-公開後在 GitHub Settings 勾選 Template repository。使用者即可選擇 Use this template，建立完全獨立的 repository、Cloudflare 資源與邀請碼。
+在 GitHub 選擇 **Use this template**，即可建立完全獨立的 repository、Cloudflare 資源與邀請碼。
 
 ## Publication checklist
 
-- [ ] 使用者確認 repository 名稱與 MIT License。
-- [ ] `site/.openai/hosting.json` 沒有 `project_id`。
-- [ ] 沒有 `.env`、token、邀請碼、私人 PDF 或生成課程 assets。
-- [ ] 所有教學畫面只使用合成 demo。
-- [ ] Clean clone 安裝、匯入、lint、build、tests 全部通過。
-- [ ] GitHub public visibility 已由使用者明確核准。
-- [ ] 通過後建立 `v0.1.0` tag。
+- [x] 使用者確認 repository 名稱與 MIT License。
+- [x] `site/.openai/hosting.json` 沒有 `project_id`。
+- [x] 沒有 `.env`、token、邀請碼、私人 PDF 或生成課程 assets。
+- [x] 所有教學畫面只使用合成 demo。
+- [x] Public clone 安裝、匯入、lint、build、13/13 tests 全部通過。
+- [x] GitHub public visibility 已由使用者明確核准。
+- [x] 通過後建立 `v0.1.0` tag。
 
 ## 45-minute Claude Code workshop
 

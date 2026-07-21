@@ -23,4 +23,6 @@
 
 ## Known dependency advisory
 
-2026-07-21 的 `npm audit --omit=dev` 回報 Next.js 內嵌 PostCSS 的 2 個 moderate advisories；目前建議的自動修正會降級至不相容的 Next.js 版本，因此 C-007 不套用 `npm audit fix --force`。Paper Lab 的 CSS 來自 repository，不接受使用者輸入，但部署者仍應在相依套件提供相容修正後更新並重跑 build、tests 與 audit。
+2026-07-21 的 `npm audit --omit=dev` 回報 Next.js 內嵌 PostCSS 的 2 個 moderate advisories，production 無 high／critical。完整開發依賴的 clean install 回報 15 個 advisories（1 low、6 moderate、8 high），GitHub Dependabot 顯示 17 個，兩者會因 advisory database 與計算方式而不同。
+
+目前建議的自動修正會降級至不相容的 Next.js 版本，因此 C-007／C-008 不套用 `npm audit fix --force`。Paper Lab 的 CSS 來自 repository，不接受使用者輸入，但維護者與部署者仍應追蹤 Dependabot，在相依套件提供相容修正後更新並重跑 build、tests 與 audit。
